@@ -34,3 +34,8 @@ Route::get('/cart/checkout', 'CartController@checkout')->name('cart.checkout')->
 
 Route::resource('orders', 'OrderController')->middleware('auth');
 
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
