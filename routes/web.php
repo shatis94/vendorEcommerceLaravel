@@ -34,6 +34,8 @@ Route::get('/cart/checkout', 'CartController@checkout')->name('cart.checkout')->
 
 Route::resource('orders', 'OrderController')->middleware('auth');
 
+Route::resource('shops','ShopController')->middleware('auth');
+
 
 
 Route::group(['prefix' => 'admin'], function () {

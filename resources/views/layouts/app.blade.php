@@ -15,7 +15,9 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -30,40 +32,40 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
 
+                        {{-- @can('seller') --}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('shops.create') }}">Open Your Shop</a>
+                            </li>
+                        {{-- @endcan --}}
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <li class="nav-item">
+                         <li class="nav-item mr-2">
                             <a class="nav-link p-0 m-0" href="{{ route('cart.index') }}">
-                                <i class="fas fa-shopping-cart text-success fa-2x"></i>
-                            Cart
-
-                            <div class="badge badge-danger">
-                                @auth
-                                {{Cart::session(auth()->id())->getContent()->count()}}
-                                @else
-                                0
-                                @endauth
-                            </div>
-
-
-                        </a>
+                                <i class="fas fa-cart-arrow-down text-success fa-2x"></i>
+                                    <div class="badge badge-danger">
+                                        @auth
+                                        {{Cart::session(auth()->id())->getContent()->count()}}
+                                        @else
+                                        0
+                                        @endauth
+                                    </div>
+                            </a>
                         </li>
+
 
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
@@ -72,7 +74,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -82,7 +84,7 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
                                 </div>
@@ -92,6 +94,21 @@
                 </div>
             </div>
         </nav>
+
+        {{-- display success message --}}
+        @if(session()->has('message'))
+            <div class="alert alert-success text-center" role="alert">
+               {{session('message')}}
+            </div>
+        @endif
+
+        {{-- display error message --}}
+
+        @if(session()->has('error'))
+        <div class="alert alert-danger text-center" role="alert">
+            {{session('error')}}
+        </div>
+        @endif
 
         <main class="py-4 container">
             @yield('content')
