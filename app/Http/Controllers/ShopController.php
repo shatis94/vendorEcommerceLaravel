@@ -70,7 +70,8 @@ class ShopController extends Controller
      */
     public function show(Shop $shop)
     {
-        dd($shop->owner-name. 'welcome to your shop', $shop->name);
+        // dd($shop->owner-name. 'welcome to your shop', $shop->name);
+        return redirect()->route('home')->withMessage('welcome to your shop');
     }
 
     /**
